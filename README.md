@@ -2,6 +2,10 @@
 
 Commandline test runner for Swift.
 
+## Installation
+
+Clone this repository and add *bin* to your *PATH*.
+
 ## Usage
 
 Having to create those pesky Xcode projects just to run your tests is

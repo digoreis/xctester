@@ -1,13 +1,22 @@
 #!/bin/sh
 
+set -e
+
 OUTPUT=/tmp/xctester
 SOURCE_DIR="`dirname $0`"
 
 SDK_PATH="`xcrun --show-sdk-path`"
 FRAMEWORKS_PATH="$SDK_PATH/../../Library/Frameworks"
 
+if [ -z "$1" ]
+then
+	files=`ls *.swift`
+else
+	files=$@
+fi
+
 xcrun swiftc -o "$OUTPUT" -F$FRAMEWORKS_PATH -Xlinker -rpath \
-	-Xlinker $FRAMEWORKS_PATH $SOURCE_DIR/../code/*.swift *.swift
+	-Xlinker $FRAMEWORKS_PATH $SOURCE_DIR/../code/*.swift $files
 
 "$OUTPUT"
 exit_code=$?

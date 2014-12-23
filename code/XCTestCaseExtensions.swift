@@ -53,7 +53,7 @@ extension XCTestCase {
     }
 }
 
-func XCTestRunAll() {
+func XCTestRunAll() -> Bool {
     let suite = XCTestSuite.defaultTestSuite() as XCTestSuite!
     let suiteRun = suite.run() as XCTestSuiteRun
     var failureCount = 0
@@ -87,4 +87,6 @@ func XCTestRunAll() {
 
     let format = ".3"
     println("\n Executed \(suiteRun.executionCount) tests, with \(failureCount) failures (\(failureCount) unexpected) in \(suiteRun.testDuration.format(format)) seconds")
+
+    return failureCount == 0
 }

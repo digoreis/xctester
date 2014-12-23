@@ -10,4 +10,8 @@ xcrun swiftc -o "$OUTPUT" -F$FRAMEWORKS_PATH -Xlinker -rpath \
 	-Xlinker $FRAMEWORKS_PATH $SOURCE_DIR/../code/*.swift *.swift
 
 "$OUTPUT"
+exit_code=$?
+
 rm -f "$OUTPUT"
+
+exit $exit_code

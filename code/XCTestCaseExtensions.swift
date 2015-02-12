@@ -6,14 +6,14 @@ var AssociatedObjectHandle: UInt8 = 0
 class Failure : NSObject, Printable {
     let failureDescription: String!
     let filePath: String!
-    let lineNumber: Int
+    let lineNumber: UInt
     let expected: Bool
 
      func description() -> String {
         return self.failureDescription
     }
 
-    init(description: String!, filePath: String!, lineNumber: Int, expected: Bool) {
+    init(description: String!, filePath: String!, lineNumber: UInt, expected: Bool) {
         failureDescription = description
         self.filePath = filePath
         self.lineNumber = lineNumber
@@ -43,7 +43,7 @@ extension XCTestCase {
     }
 
     func recordFailureWithDescription(description: String!, inFile filePath: String!,
-        atLine lineNumber: Int, expected: Bool) {
+        atLine lineNumber: UInt, expected: Bool) {
             if self.records == nil {
                 self.records = [Failure]()
             }

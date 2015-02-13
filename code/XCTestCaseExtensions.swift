@@ -9,7 +9,7 @@ class Failure : NSObject, Printable {
     let lineNumber: UInt
     let expected: Bool
 
-     func description() -> String {
+    override var description: String {
         return self.failureDescription
     }
 
@@ -23,14 +23,14 @@ class Failure : NSObject, Printable {
 
 extension NSTimeInterval {
     func format(f: String) -> String {
-        return NSString(format: "%\(f)f", self)
+        return String(format: "%\(f)f", self)
     }
 }
 
 extension XCTestCase {
     var records: [Failure]! {
         get {
-            return objc_getAssociatedObject(self, &AssociatedObjectHandle) as [Failure]!
+            return objc_getAssociatedObject(self, &AssociatedObjectHandle) as! [Failure]!
         }
         set {
             objc_setAssociatedObject(self, &AssociatedObjectHandle, newValue,
@@ -54,19 +54,19 @@ extension XCTestCase {
 }
 
 func XCTestRunAll() -> Bool {
-    let suite = XCTestSuite.defaultTestSuite() as XCTestSuite!
-    let suiteRun = suite.run() as XCTestSuiteRun
+    let suite = XCTestSuite.defaultTestSuite() as! XCTestSuite!
+    let suiteRun = suite.run() as! XCTestSuiteRun
     var failureCount = 0
 
     for testRun in suiteRun.testRuns {
-        let suites = ((testRun as XCTestRun).test as XCTestSuite).tests
+        let suites = ((testRun as! XCTestRun).test as! XCTestSuite).tests
 
         for suite in suites {
             let testCaseName = suite.name
             println(testCaseName + "\n")
 
-            for test in (suite as XCTestSuite).tests {
-                let testCase = test as XCTestCase
+            for test in (suite as! XCTestSuite).tests {
+                let testCase = test as! XCTestCase
 
                 print(testCase.success ? "✅" : "❌")
                 println("  \(testCase.name)")

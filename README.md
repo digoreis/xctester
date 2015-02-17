@@ -4,7 +4,12 @@ Commandline test runner for Swift.
 
 ## Installation
 
-Clone this repository and add *bin* to your *PATH*.
+```
+$ brew tap neonichu/formulae
+$ brew install xctester
+```
+
+Note: this needs Xcode 6.3
 
 ## Usage
 

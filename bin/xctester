@@ -3,7 +3,8 @@
 set -e
 
 OUTPUT=/tmp/xctester
-SOURCE_DIR="`dirname $0`"
+CMD="`python -c 'import os,sys;print os.path.realpath(sys.argv[1])' $0`"
+SOURCE_DIR="`dirname "$CMD"`"
 
 SDK_PATH="`xcrun --show-sdk-path`"
 FRAMEWORKS_PATH="$SDK_PATH/../../Library/Frameworks"

@@ -27,6 +27,23 @@ extension NSTimeInterval {
     }
 }
 
+let recordFailure_block : @objc_block (sself: XCTestCase, description: String!, filePath: String!, lineNumber: UInt, expected: Bool) -> Void = { (sself, description, filePath, lineNumber, expected) -> (Void) in
+    if sself.records == nil {
+        sself.records = [Failure]()
+    }
+
+    sself.records.append(Failure(description: description, filePath: filePath,
+        lineNumber: lineNumber, expected: expected))
+}
+
+class LolSwift: NSObject {
+    override class func initialize() {
+        let recordFailure_IMP = imp_implementationWithBlock(unsafeBitCast(recordFailure_block, AnyObject.self))
+        let recordFailure_method = class_getInstanceMethod(XCTestCase.self, "recordFailureWithDescription:inFile:atLine:expected:")
+        let recordFailure_old_IMP = method_setImplementation(recordFailure_method, recordFailure_IMP)
+    }
+}
+
 extension XCTestCase {
     var records: [Failure]! {
         get {
@@ -41,19 +58,10 @@ extension XCTestCase {
     var success: Bool {
         return self.records == nil || self.records.count == 0
     }
-
-    func recordFailureWithDescription(description: String!, inFile filePath: String!,
-        atLine lineNumber: UInt, expected: Bool) {
-            if self.records == nil {
-                self.records = [Failure]()
-            }
-
-            self.records.append(Failure(description: description, filePath: filePath,
-                lineNumber: lineNumber, expected: expected))
-    }
 }
 
 func XCTestRunAll() -> Bool {
+    let l = LolSwift()
     let suite = XCTestSuite.defaultTestSuite() as! XCTestSuite!
     let suiteRun = suite.run() as! XCTestSuiteRun
     var failureCount = 0

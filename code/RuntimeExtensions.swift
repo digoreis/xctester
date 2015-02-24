@@ -1,18 +1,20 @@
 import Foundation
 import ObjectiveC
 
-@asmname("objc_msgSend") func sendPerformSelector(NSObject, Selector, Selector) -> Void;
+@asmname("objc_msgSend") func sendPerformSelector(NSObject, Selector, Selector) -> AnyObject!;
 
-extension NSObject {
-    public func performSelector(selector : Selector) -> Void {
-        return sendPerformSelector(self, "performSelector:", selector)
-    }
+let msgSend_block : @objc_block (sself: NSObject, aSelector: Selector) -> AnyObject! = { (sself, aSelector) -> (AnyObject!) in
+    return sendPerformSelector(sself, "performSelector:", aSelector)
 }
+
+let msgSend_IMP = imp_implementationWithBlock(unsafeBitCast(msgSend_block, AnyObject.self))
+let method = class_getInstanceMethod(NSObject.self, "performSelector:")
+let msgSend_old_IMP = method_setImplementation(method, msgSend_IMP)
 
 func class_getSubclasses(parentClass: AnyClass) -> [AnyClass] {
     var numClasses = objc_getClassList(nil, 0)
 
-    var classes = AutoreleasingUnsafeMutablePointer<AnyClass?>(malloc(UInt(sizeof(AnyClass) * Int(numClasses))))
+    var classes = AutoreleasingUnsafeMutablePointer<AnyClass?>(malloc(Int(sizeof(AnyClass) * Int(numClasses))))
     numClasses = objc_getClassList(classes, numClasses)
 
     var result = [AnyClass]()

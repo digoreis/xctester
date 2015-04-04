@@ -60,7 +60,8 @@ extension XCTestCase {
     }
 }
 
-func XCTestRunAll() -> Bool {
+/// Run all XCTest expectations and report the results to stdout
+public func XCTestRunAll() -> Bool {
     let l = LolSwift()
     let suite = XCTestSuite.defaultTestSuite() as! XCTestSuite!
     let suiteRun = suite.run() as! XCTestSuiteRun

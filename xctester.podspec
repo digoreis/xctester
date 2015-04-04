@@ -12,7 +12,8 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = "10.9"
   s.requires_arc          = true
 
-  s.source       = { :git => "https://github.com/neonichu/xctester.git", :tag => "0.1.3" }
+  s.source       = { :git => "https://github.com/neonichu/xctester.git",
+                     :tag => s.version }
   s.source_files = "code/XCTestCaseExtensions.swift"
   s.framework    = "XCTest"
 end

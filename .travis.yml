@@ -1,5 +1,5 @@
 language: objective-c
 script:
 - bin/xctester tests/*.swift >$TMPDIR/output.txt 2>/dev/null || true
-- sed -i '' 's/0\.00[0-9]/0/' $TMPDIR/output.txt
+- sed -i '' 's/0\.[0-9]* /0 /' $TMPDIR/output.txt
 - diff tests/expected-output.txt $TMPDIR/output.txt

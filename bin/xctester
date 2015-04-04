@@ -16,7 +16,7 @@ else
 	files=$@
 fi
 
-xcrun swiftc -o "$OUTPUT" -F"$FRAMEWORKS_PATH" -Xlinker -rpath \
+xcrun -sdk macosx swiftc -o "$OUTPUT" -F"$FRAMEWORKS_PATH" -Xlinker -rpath \
 	-Xlinker "$FRAMEWORKS_PATH" "$SOURCE_DIR"/../code/*.swift $files
 
 "$OUTPUT"

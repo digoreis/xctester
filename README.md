@@ -1,5 +1,7 @@
 # xctester
 
+[![Build Status](http://img.shields.io/travis/neonichu/xctester.svg?style=flat)](https://travis-ci.org/neonichu/xctester)
+
 Commandline test runner for Swift.
 
 ## Installation

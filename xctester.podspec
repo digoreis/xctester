@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "xctester"
-  s.version      = "0.1.3"
+  s.version      = "0.1.4"
   s.summary      = "Run, XCTest, run"
   s.homepage     = "https://github.com/neonichu/xctester"
   s.license      = "MIT"

@@ -32,6 +32,10 @@ class MyTests : XCTestCase {
   func testAddFail() {
     XCTAssertTrue(false, "lol")
   }
+
+  func testThrows() {
+    NSException.raise("Exception", format:"#yolo", arguments: getVaList([]))
+  }
 }
 ```
 
@@ -43,6 +47,8 @@ MyTests
 ✅  -[MyTests testAdd]
 ❌  -[MyTests testAddFail]
 	XCTAssertTrue failed - lol
+❌  -[MyTests testThrows]
+	failed: caught "Exception", "#yolo"
 
  Executed 2 tests, with 1 failures (1 unexpected) in 0.001 seconds
 ```

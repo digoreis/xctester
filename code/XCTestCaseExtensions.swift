@@ -36,11 +36,24 @@ let recordFailure_block : @objc_block (sself: XCTestCase, description: String!, 
         lineNumber: lineNumber, expected: expected))
 }
 
+let recordUnexpectedFailure_block : @objc_block (sself: XCTestCase, description: String!, exception: NSException!) -> Void = { (sself, description, exception) -> Void in
+    if sself.records == nil {
+        sself.records = [Failure]()
+    }
+
+    let truncatedDescription = (split(description) { $0 == "\n" }).first
+    sself.records.append(Failure(description: truncatedDescription, filePath: nil, lineNumber: 0, expected: false))
+}
+
 class LolSwift: NSObject {
     override class func initialize() {
         let recordFailure_IMP = imp_implementationWithBlock(unsafeBitCast(recordFailure_block, AnyObject.self))
         let recordFailure_method = class_getInstanceMethod(XCTestCase.self, "recordFailureWithDescription:inFile:atLine:expected:")
         let recordFailure_old_IMP = method_setImplementation(recordFailure_method, recordFailure_IMP)
+
+        let recordUnexpectedFailure_IMP = imp_implementationWithBlock(unsafeBitCast(recordUnexpectedFailure_block, AnyObject.self))
+        let recordUnexpectedFailure_method = class_getInstanceMethod(XCTestCase.self, "_recordUnexpectedFailureWithDescription:exception:")
+        let recordUnexpectedFailure_old_IMP = method_setImplementation(recordUnexpectedFailure_method, recordUnexpectedFailure_IMP)
     }
 }
 
@@ -68,7 +81,8 @@ public func XCTestRunAll() -> Bool {
     var failureCount = 0
 
     for testRun in suiteRun.testRuns {
-        let suites = ((testRun as! XCTestRun).test as! XCTestSuite).tests
+        let run = testRun as! XCTestRun
+        let suites = (run.test as! XCTestSuite).tests
 
         for suite in suites {
             let testCaseName = suite.name

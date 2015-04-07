@@ -9,5 +9,9 @@ class MyTests : XCTestCase {
   func testAddFail() {
     XCTAssertTrue(false, "lol")
   }
+
+  func testThrows() {
+    NSException.raise("Exception", format:"#yolo", arguments: getVaList([]))
+  }
 }
 

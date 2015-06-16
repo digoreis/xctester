@@ -1,5 +1,10 @@
 #!/bin/sh
 
+function compile_tests {
+	xcrun -sdk macosx swiftc -o "$OUTPUT" -F"$FRAMEWORKS_PATH" -Xlinker -rpath \
+		-Xlinker "$FRAMEWORKS_PATH" "$SOURCE_DIR"/../code/*.swift "$@"
+}
+
 set -e
 
 OUTPUT=$TMPDIR/xctester
@@ -11,13 +16,10 @@ FRAMEWORKS_PATH="$SDK_PATH/../../Library/Frameworks"
 
 if [ -z "$1" ]
 then
-	files=`ls *.swift`
+	compile_tests `ls *.swift`
 else
-	files=$@
+	compile_tests "$@"
 fi
-
-xcrun -sdk macosx swiftc -o "$OUTPUT" -F"$FRAMEWORKS_PATH" -Xlinker -rpath \
-	-Xlinker "$FRAMEWORKS_PATH" "$SOURCE_DIR"/../code/*.swift $files
 
 "$OUTPUT"
 exit_code=$?

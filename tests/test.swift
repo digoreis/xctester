@@ -2,7 +2,7 @@ import XCTest
 
 class MyTests : XCTestCase {
   func testAdd() {
-    let result = add(3, 5)
+    let result = add(3, b:5)
     XCTAssertEqual(result, 8, "")
   }
 

@@ -14,7 +14,7 @@ let msgSend_old_IMP = method_setImplementation(method, msgSend_IMP)
 func class_getSubclasses(parentClass: AnyClass) -> [AnyClass] {
     var numClasses = objc_getClassList(nil, 0)
 
-    var classes = AutoreleasingUnsafeMutablePointer<AnyClass?>(malloc(Int(sizeof(AnyClass) * Int(numClasses))))
+    let classes = AutoreleasingUnsafeMutablePointer<AnyClass?>(malloc(Int(sizeof(AnyClass) * Int(numClasses))))
     numClasses = objc_getClassList(classes, numClasses)
 
     var result = [AnyClass]()

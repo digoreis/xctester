@@ -41,7 +41,7 @@ let recordUnexpectedFailure_block : @convention(block) (sself: XCTestCase, descr
         sself.records = [Failure]()
     }
 
-    let truncatedDescription = String((description.characters.split() { $0 == "\n" }).first)
+    let truncatedDescription = String((description.characters.split() { $0 == "\n" }).first!)
     sself.records.append(Failure(description: truncatedDescription, filePath: nil, lineNumber: 0, expected: false))
 }
 
@@ -76,7 +76,10 @@ extension XCTestCase {
 /// Run all XCTest expectations and report the results to stdout
 public func XCTestRunAll() -> Bool {
     let _ = LolSwift()
-    let suiteRun = XCTestSuite.defaultTestSuite().run() as! XCTestSuiteRun
+
+    let testSuite = XCTestSuite.defaultTestSuite()
+    let suiteRun = XCTestSuiteRun(test: testSuite)
+    testSuite.performTest(suiteRun)
     var failureCount = 0
 
     for testRun in suiteRun.testRuns {
@@ -89,8 +92,8 @@ public func XCTestRunAll() -> Bool {
             for test in (suite as! XCTestSuite).tests {
                 let testCase = test as! XCTestCase
 
-                print(testCase.success ? "✅" : "❌")
-                print("  \(testCase.name)")
+                let status = testCase.success ? "✅" : "❌"
+                print("\(status)  \(testCase.name)")
 
                 if (testCase.success) {
                     continue
@@ -99,8 +102,7 @@ public func XCTestRunAll() -> Bool {
                 failureCount++
 
                 for failure in testCase.records {
-                    print("\t")
-                    print(failure)
+                    print("\t\(failure)")
                 }
             }
         }

@@ -1,9 +1,9 @@
 import Foundation
 import ObjectiveC
 
-@asmname("objc_msgSend") func sendPerformSelector(NSObject, Selector, Selector) -> AnyObject!;
+@asmname("objc_msgSend") func sendPerformSelector(_:NSObject, _:Selector, _:Selector) -> AnyObject!;
 
-let msgSend_block : @objc_block (sself: NSObject, aSelector: Selector) -> AnyObject! = { (sself, aSelector) -> (AnyObject!) in
+let msgSend_block : @convention(block) (sself: NSObject, aSelector: Selector) -> AnyObject! = { (sself, aSelector) -> (AnyObject!) in
     return sendPerformSelector(sself, "performSelector:", aSelector)
 }
 
@@ -14,7 +14,7 @@ let msgSend_old_IMP = method_setImplementation(method, msgSend_IMP)
 func class_getSubclasses(parentClass: AnyClass) -> [AnyClass] {
     var numClasses = objc_getClassList(nil, 0)
 
-    var classes = AutoreleasingUnsafeMutablePointer<AnyClass?>(malloc(Int(sizeof(AnyClass) * Int(numClasses))))
+    let classes = AutoreleasingUnsafeMutablePointer<AnyClass?>(malloc(Int(sizeof(AnyClass) * Int(numClasses))))
     numClasses = objc_getClassList(classes, numClasses)
 
     var result = [AnyClass]()
@@ -22,7 +22,7 @@ func class_getSubclasses(parentClass: AnyClass) -> [AnyClass] {
     for i in 0..<numClasses {
         var superClass: AnyClass! = classes[Int(i)] as AnyClass!
 
-        do {
+        repeat {
             superClass = class_getSuperclass(superClass)
         } while (superClass != nil && NSStringFromClass(parentClass) != NSStringFromClass(superClass))
 

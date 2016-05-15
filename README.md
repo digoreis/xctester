@@ -11,7 +11,7 @@ $ brew tap neonichu/formulae
 $ brew install xctester
 ```
 
-Note: this needs Xcode 7.0
+Note: this needs Xcode 7.3.1
 
 ## Usage
 

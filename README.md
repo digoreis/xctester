@@ -7,7 +7,7 @@ Commandline test runner for Swift.
 ## Installation
 
 ```
-$ brew tap neonichu/formulae
+$ brew tap digoreis/formulae
 $ brew install xctester
 ```
 

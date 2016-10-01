@@ -2,7 +2,7 @@ import XCTest
 
 class MyTests : XCTestCase {
   func testAdd() {
-    let result = add(3, b:5)
+    let result = add(a: 3, b:5)
     XCTAssertEqual(result, 8, "")
   }
 
@@ -11,7 +11,7 @@ class MyTests : XCTestCase {
   }
 
   func testThrows() {
-    NSException.raise("Exception", format:"#yolo", arguments: getVaList([]))
+    NSException.raise(NSExceptionName("Exception"), format:"#yolo", arguments: getVaList([]))
   }
 }
 

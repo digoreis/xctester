@@ -1,6 +1,6 @@
 # xctester
 
-[![Build Status](http://img.shields.io/travis/neonichu/xctester.svg?style=flat)](https://travis-ci.org/neonichu/xctester)
+[![Build Status](https://travis-ci.org/digoreis/xctester.svg?branch=master)](https://travis-ci.org/digoreis/xctester)
 
 Commandline test runner for Swift.
 
@@ -11,7 +11,7 @@ $ brew tap digoreis/formulae
 $ brew install xctester
 ```
 
-Note: this needs Xcode 7.3.1
+Note: this needs Xcode 8.0
 
 ## Usage
 

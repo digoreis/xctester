@@ -97,7 +97,7 @@ public func XCTestRunAll() -> Bool {
         }
     }
 
-    let format = ".3"
+    let format = ".0"
     print("\n Executed \(suiteRun.executionCount) tests, with \(failureCount) failures (\(failureCount) unexpected) in \(suiteRun.testDuration.format(f: format)) seconds")
 
     return failureCount == 0

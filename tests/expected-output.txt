@@ -4,6 +4,6 @@ MyTests
 ❌  -[MyTests testAddFail]
 	XCTAssertTrue failed - lol
 ❌  -[MyTests testThrows]
-	failed: caught "Exception", "#yolo"
+	XCTAssertThrowsError failed: throwing #yolo -
 
  Executed 3 tests, with 2 failures (2 unexpected) in 0 seconds

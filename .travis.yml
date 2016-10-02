@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode7.3
+osx_image: xcode8
 script:
 - bin/xctester tests/*.swift >$TMPDIR/output.txt 2>/dev/null || true
 - sed -i '' 's/0\.[0-9]* /0 /' $TMPDIR/output.txt

@@ -11,7 +11,7 @@ class MyTests : XCTestCase {
   }
 
   func testThrows() {
-    NSException.raise(NSExceptionName("Exception"), format:"#yolo", arguments: getVaList([]))
+    XCTAssertThrowsError(NSException.raise(NSExceptionName.genericException, format:"#yolo", arguments: getVaList([])))
   }
 }
 

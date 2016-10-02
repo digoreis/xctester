@@ -31,24 +31,8 @@ let recordFailure_block : @convention(block) (_ sself: XCTestCase, _ description
     if sself.records == nil {
         sself.records = [Failure]()
     }
-
     sself.records.append(Failure(description: description, filePath: filePath,
         lineNumber: lineNumber, expected: expected))
-}
-
-let recordUnexpectedFailure_block : @convention(block) (_ sself: XCTestCase,_  description: String,_ exception: NSException) -> Void = { (sself, description, exception) -> Void in
-    if sself.records == nil {
-        sself.records = [Failure]()
-    }
-
-    let truncatedDescription = String((description.characters.split() { $0 == "\n" }).first!)
-    sself.records.append(Failure(description: truncatedDescription, filePath: "", lineNumber: 0, expected: false))
-}
-
-extension XCTestCase {
-    func _recordUnexpectedFailureWithDescription(desc: String, exception: NSException) {
-        fatalError("should never be called")
-    }
 }
 
 class LolSwift: NSObject {
@@ -56,10 +40,6 @@ class LolSwift: NSObject {
         let recordFailure_IMP = imp_implementationWithBlock(unsafeBitCast(recordFailure_block,to: AnyObject.self))
         let recordFailure_method = class_getInstanceMethod(XCTestCase.self, #selector(XCTestCase.recordFailure))
         let _ = method_setImplementation(recordFailure_method, recordFailure_IMP)
-
-        let recordUnexpectedFailure_IMP = imp_implementationWithBlock(unsafeBitCast(recordUnexpectedFailure_block,to: AnyObject.self))
-        let recordUnexpectedFailure_method = class_getInstanceMethod(XCTestCase.self, #selector(XCTestCase.recordFailure))
-        let _ = method_setImplementation(recordUnexpectedFailure_method, recordUnexpectedFailure_IMP)
     }
 }
 
